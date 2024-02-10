@@ -1,18 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/attendance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/attendance"
+            android:textSize="@dimen/dp_20"
+            android:background="@drawable/attendance_button"
+            android:layout_marginStart="@dimen/dp_80"
+            android:layout_marginEnd="@dimen/dp_80"
+            android:layout_marginTop="@dimen/dp_200"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:backgroundTint="@null"/>
+
+        <Button
+            android:id="@+id/leaving"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/leaving"
+            android:textSize="@dimen/dp_20"
+            android:background="@drawable/leaving_button"
+            android:layout_marginStart="@dimen/dp_80"
+            android:layout_marginEnd="@dimen/dp_80"
+            android:layout_marginTop="@dimen/dp_60"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attendance"
+            app:backgroundTint="@null"/>
+
+        <TextView
+            android:id="@+id/date_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_time"
+            android:textSize="@dimen/dp_25"
+            android:layout_marginTop="@dimen/dp_25"
+            android:textColor="@color/color_bbbbbb"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/leaving"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
