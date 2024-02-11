@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AttendEase</string>
+    <string name="attendance">出　勤</string>
+    <string name="leaving">退　勤</string>
+    <string name="date_time">2000/12/31 01:01:01</string>
+    <string name="attendance_toast">出勤しました</string>
+    <string name="leaving_toast">退勤しました</string>
 </resources>
