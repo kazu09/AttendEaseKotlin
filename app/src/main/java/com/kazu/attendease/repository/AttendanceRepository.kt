@@ -47,4 +47,17 @@ class AttendanceRepository(private val dao: AttendanceDao) {
             DbResult.Error(e)
         }
     }
+
+    /**
+     * Get last Record.
+     */
+    suspend fun getLastRecord(userId: Int): DbResult<AttendanceRecord?> = withContext(Dispatchers.IO){
+        return@withContext try {
+            val record = dao.getLastRecordForUser(userId)
+            DbResult.Success(record)
+        } catch (e: java.lang.Exception) {
+            // When saving the database failed.
+            DbResult.Error(e)
+        }
+    }
 }

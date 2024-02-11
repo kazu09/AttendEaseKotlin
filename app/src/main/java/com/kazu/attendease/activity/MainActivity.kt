@@ -27,12 +27,20 @@ class MainActivity : AppCompatActivity() {
         MainViewModelFactory(repository)
     }
 
+    /** userId */
+    private val userId = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
         binding.dateTime.text = viewModel.getDateTime()
         setupObservers()
         clickListener()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getLastRecord(userId)
     }
 
     /**
@@ -51,12 +59,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.attendance.setOnClickListener {
             binding.dateTime.text = viewModel.getDateTime()
-            viewModel.onCheckInClicked(1, viewModel.getDate())
+            viewModel.onCheckInClicked(userId, viewModel.getDate())
         }
 
         binding.leaving.setOnClickListener {
             binding.dateTime.text = viewModel.getDateTime()
-            viewModel.onCheckOutClicked(1, viewModel.getDate())
+            viewModel.onCheckOutClicked(userId, viewModel.getDate())
         }
     }
 
@@ -68,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             when (result) {
                 is DbResult.Success -> {
                     Toast.makeText(this, getString(R.string.attendance_toast), Toast.LENGTH_SHORT).show()
-//                    binding.attendance.isEnabled = false
+                    binding.attendance.isEnabled = false
                 }
                 is DbResult.Error -> {
                     Toast.makeText(this, getString(R.string.db_error), Toast.LENGTH_SHORT).show()
@@ -80,12 +88,29 @@ class MainActivity : AppCompatActivity() {
             when (result) {
                 is DbResult.Success -> {
                     Toast.makeText(this, getString(R.string.leaving_toast), Toast.LENGTH_SHORT).show()
-//                    binding.leaving.isEnabled = false
+                    binding.leaving.isEnabled = false
                 }
                 is DbResult.Error -> {
                     Toast.makeText(this, getString(R.string.db_error), Toast.LENGTH_SHORT).show()
                 }
             }
         })
+
+        viewModel.lastRecord.observe(this) { result ->
+            when (result) {
+                is DbResult.Success -> {
+                    val record = result.data
+                    if (record != null) {
+                        binding.attendance.isEnabled = record.date != viewModel.getDate()
+                        binding.leaving.isEnabled =
+                            !(record.date == viewModel.getDate() && record.timeOut != null)
+                    }
+                }
+
+                is DbResult.Error -> {
+
+                }
+            }
+        }
     }
 }
