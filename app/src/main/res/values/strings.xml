@@ -5,4 +5,5 @@
     <string name="date_time">2000/12/31 01:01:01</string>
     <string name="attendance_toast">出勤しました</string>
     <string name="leaving_toast">退勤しました</string>
+    <string name="db_error">保存に失敗しました</string>
 </resources>
