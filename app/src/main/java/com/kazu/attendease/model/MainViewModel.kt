@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kazu.attendease.db.entity.AttendanceRecord
 import com.kazu.attendease.repository.AttendanceRepository
 import com.kazu.attendease.utils.DbResult
 import kotlinx.coroutines.launch
@@ -16,6 +17,9 @@ class MainViewModel(private val repository: AttendanceRepository) : ViewModel() 
 
     private val _checkOutStatus = MutableLiveData<DbResult<Unit>>()
     val checkOutStatus: LiveData<DbResult<Unit>> = _checkOutStatus
+
+    private val _lastRecord = MutableLiveData<DbResult<AttendanceRecord?>>()
+    val lastRecord: LiveData<DbResult<AttendanceRecord?>> = _lastRecord
 
     fun onCheckInClicked(userId: Int, date: String) {
         viewModelScope.launch {
@@ -35,6 +39,21 @@ class MainViewModel(private val repository: AttendanceRepository) : ViewModel() 
                 _checkOutStatus.postValue(result)
             } catch (e: Exception) {
                 _checkOutStatus.postValue(DbResult.Error(e))
+            }
+        }
+    }
+
+    /**
+     * Get last record on tap.
+     * @param userId userId
+     */
+    fun getLastRecord(userId: Int) {
+        viewModelScope.launch {
+            try {
+                val result = repository.getLastRecord(userId)
+                _lastRecord.value = result
+            } catch (e: Exception) {
+                _lastRecord.postValue(DbResult.Error(e))
             }
         }
     }
