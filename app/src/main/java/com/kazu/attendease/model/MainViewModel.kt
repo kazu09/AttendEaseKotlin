@@ -77,4 +77,5 @@ class MainViewModel(private val repository: AttendanceRepository) : ViewModel() 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         return currentDateTime.format(formatter)
     }
+
 }

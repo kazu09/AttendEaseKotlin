@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AttendEase</string>
+    <string name="attendance">Begin</string>
+    <string name="leaving">Finish</string>
+    <string name="date_time">2000/12/31 01:01:01</string>
+    <string name="attendance_toast">Begin work.</string>
+    <string name="leaving_toast">Finish work.</string>
+    <string name="db_error">Failed to save.</string>
+    <string name="set_lang_dialog_title">Setting language</string>
+    <string name="set_lang_dialog_ok">Setting</string>
+    <string name="set_lang_dialog_cancel">Close</string>
+</resources>

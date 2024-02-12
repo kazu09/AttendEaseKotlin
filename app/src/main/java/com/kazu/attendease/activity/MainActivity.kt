@@ -1,9 +1,14 @@
 package com.kazu.attendease.activity
 
+import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.room.Room
 import com.kazu.attendease.R
@@ -14,6 +19,7 @@ import com.kazu.attendease.factory.MainViewModelFactory
 import com.kazu.attendease.model.MainViewModel
 import com.kazu.attendease.repository.AttendanceRepository
 import com.kazu.attendease.utils.DbResult
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     /** binding */
@@ -21,7 +27,11 @@ class MainActivity : AppCompatActivity() {
 
     /** viewModel */
     private val viewModel: MainViewModel by viewModels {
-        val db = Room.databaseBuilder(applicationContext, AttendanceDatabase::class.java, Constants.DATABASE_NAME).build()
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AttendanceDatabase::class.java,
+            Constants.DATABASE_NAME
+        ).build()
         val dao = db.attendanceDao()
         val repository = AttendanceRepository(dao)
         MainViewModelFactory(repository)
@@ -43,6 +53,26 @@ class MainActivity : AppCompatActivity() {
         viewModel.getLastRecord(userId)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                showRadioButtonDialog()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(updateBaseLocale(newBase))
+    }
+
     /**
      * Init layout.
      */
@@ -50,6 +80,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        toolbar()
+    }
+
+    private fun toolbar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = ""
     }
 
     /**
@@ -75,9 +111,11 @@ class MainActivity : AppCompatActivity() {
         viewModel.checkInStatus.observe(this, Observer { result ->
             when (result) {
                 is DbResult.Success -> {
-                    Toast.makeText(this, getString(R.string.attendance_toast), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.attendance_toast), Toast.LENGTH_SHORT)
+                        .show()
                     binding.attendance.isEnabled = false
                 }
+
                 is DbResult.Error -> {
                     Toast.makeText(this, getString(R.string.db_error), Toast.LENGTH_SHORT).show()
                 }
@@ -87,9 +125,11 @@ class MainActivity : AppCompatActivity() {
         viewModel.checkOutStatus.observe(this, Observer { result ->
             when (result) {
                 is DbResult.Success -> {
-                    Toast.makeText(this, getString(R.string.leaving_toast), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.leaving_toast), Toast.LENGTH_SHORT)
+                        .show()
                     binding.leaving.isEnabled = false
                 }
+
                 is DbResult.Error -> {
                     Toast.makeText(this, getString(R.string.db_error), Toast.LENGTH_SHORT).show()
                 }
@@ -106,11 +146,64 @@ class MainActivity : AppCompatActivity() {
                             !(record.date == viewModel.getDate() && record.timeOut != null)
                     }
                 }
-
                 is DbResult.Error -> {
 
                 }
             }
         }
     }
+
+    /**
+     * Localize setting dialog.
+     * default Japanese.
+     */
+    private fun showRadioButtonDialog() {
+        val items = arrayOf("ja", "en")
+        // Keep item index (initial value = -1)
+        var checkedItem = -1
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.set_lang_dialog_title))
+            .setSingleChoiceItems(items, checkedItem) { _, which ->
+                checkedItem = which
+
+            }.setPositiveButton(getString(R.string.set_lang_dialog_ok)) { _, _ ->
+                if (checkedItem == -1) {
+                    return@setPositiveButton
+                }
+                when (items[checkedItem]) {
+                    Constants.EN_CODE -> {
+                        Constants.languageCode = "en"
+                        updateBaseLocale(this)
+                        recreate()
+                    }
+
+                    Constants.JA_CODE -> {
+                        Constants.languageCode = "ja"
+                        updateBaseLocale(this)
+                        recreate()
+                    }
+
+                    else -> {
+
+                    }
+                }
+            }
+            .setNegativeButton(getString(R.string.set_lang_dialog_cancel), null)
+            .show()
+    }
+
+    /**
+     * Update Locale.
+     * @param context context
+     */
+    private fun updateBaseLocale(context: Context): Context? {
+        val locale = Locale(Constants.languageCode)
+        Locale.setDefault(locale)
+
+        val config = Configuration()
+        config.setLocale(locale)
+        return context.createConfigurationContext(config)
+    }
+
 }
