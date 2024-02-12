@@ -19,6 +19,10 @@ import com.kazu.attendease.factory.MainViewModelFactory
 import com.kazu.attendease.model.MainViewModel
 import com.kazu.attendease.repository.AttendanceRepository
 import com.kazu.attendease.utils.DbResult
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -102,6 +106,10 @@ class MainActivity : AppCompatActivity() {
             binding.dateTime.text = viewModel.getDateTime()
             viewModel.onCheckOutClicked(userId, viewModel.getDate())
         }
+
+        binding.download.setOnClickListener {
+            viewModel.getAllRecord()
+        }
     }
 
     /**
@@ -148,6 +156,41 @@ class MainActivity : AppCompatActivity() {
                 }
                 is DbResult.Error -> {
 
+                }
+            }
+        }
+
+        viewModel.allRecord.observe(this) { result ->
+            when (result) {
+                is DbResult.Success -> {
+                    val record = result.data
+                    // Settings download file name.
+                    val file = File(this.getExternalFilesDir(null), "AttendEase.txt")
+                    try {
+                        file.printWriter().use { out ->
+                            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                            record.forEach { attendance ->
+                                val checkInDateStr = attendance.timeIn?.let {
+                                    Date(
+                                        it
+                                    )
+                                }?.let { dateFormat.format(it) }
+                                var text = "date: ${attendance.date}, Begin: $checkInDateStr"
+                                attendance.timeOut?.let {
+                                    val checkOutDateStr = dateFormat.format(Date(it))
+                                    text += ", Finish: $checkOutDateStr"
+                                }
+                                // Output text
+                                out.println(text)
+                                Toast.makeText(this, getString(R.string.output_text_success), Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } catch (_: IOException) {
+                        Toast.makeText(this, getString(R.string.output_text_failed), Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is DbResult.Error -> {
+                    Toast.makeText(this, getString(R.string.output_text_failed), Toast.LENGTH_SHORT).show()
                 }
             }
         }

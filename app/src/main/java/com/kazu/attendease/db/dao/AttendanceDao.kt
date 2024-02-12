@@ -19,4 +19,7 @@ interface AttendanceDao {
 
     @Query("SELECT * FROM attendance_records WHERE userId = :userId ORDER BY date DESC LIMIT 1")
     fun getLastRecordForUser(userId: Int): AttendanceRecord?
+
+    @Query("SELECT * FROM attendance_records")
+    fun getAll(): List<AttendanceRecord>
 }

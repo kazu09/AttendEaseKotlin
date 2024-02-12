@@ -9,4 +9,7 @@
     <string name="set_lang_dialog_title">言語を設定する</string>
     <string name="set_lang_dialog_ok">設定する</string>
     <string name="set_lang_dialog_cancel">閉じる</string>
+    <string name="download_button_text">ダウンロード</string>
+    <string name="output_text_success">ダウンロードに成功しました</string>
+    <string name="output_text_failed">ダウンロードに失敗しました</string>
 </resources>

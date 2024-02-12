@@ -60,4 +60,16 @@ class AttendanceRepository(private val dao: AttendanceDao) {
             DbResult.Error(e)
         }
     }
+
+    /**
+     * Get All Record.
+     */
+    suspend fun getAllRecord(): DbResult<List<AttendanceRecord>> = withContext(Dispatchers.IO) {
+        return@withContext try {
+            val record = dao.getAll()
+            DbResult.Success(record)
+        } catch(e: java.lang.Exception) {
+            DbResult.Error(e)
+        }
+    }
 }
