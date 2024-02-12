@@ -1,3 +1,9 @@
+/**
+ * AttendanceRepository.kt
+ * AttendEase
+ *
+ * Created by kazu 2024.
+ */
 package com.kazu.attendease.repository
 
 import com.kazu.attendease.db.dao.AttendanceDao

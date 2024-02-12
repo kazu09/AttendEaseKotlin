@@ -1,3 +1,9 @@
+/**
+ * Constants.kt
+ * AttendEase
+ *
+ * Created by kazu 2024.
+ */
 package com.kazu.attendease.common
 
 object Constants {

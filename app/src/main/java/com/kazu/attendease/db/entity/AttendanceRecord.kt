@@ -1,3 +1,9 @@
+/**
+ * AttendanceRecord.kt
+ * AttendEase
+ *
+ * Created by kazu 2024.
+ */
 package com.kazu.attendease.db.entity
 
 import androidx.room.Entity

@@ -1,3 +1,9 @@
+/**
+ * MainViewModel.kt
+ * AttendEase
+ *
+ * Created by kazu 2024.
+ */
 package com.kazu.attendease.model
 
 import androidx.lifecycle.LiveData

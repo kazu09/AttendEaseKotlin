@@ -1,3 +1,9 @@
+/**
+ * AttendanceDao.kt
+ * AttendEase
+ *
+ * Created by kazu 2024.
+ */
 package com.kazu.attendease.db.dao
 
 import androidx.room.Dao
