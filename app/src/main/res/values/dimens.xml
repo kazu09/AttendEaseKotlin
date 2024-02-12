@@ -2,6 +2,7 @@
     <dimen name="dp_0">0dp</dimen>
     <dimen name="dp_20">20dp</dimen>
     <dimen name="dp_25">25dp</dimen>
+    <dimen name="dp_40">40dp</dimen>
     <dimen name="dp_60">60dp</dimen>
     <dimen name="dp_80">80dp</dimen>
     <dimen name="dp_200">200dp</dimen>

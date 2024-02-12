@@ -21,6 +21,9 @@ class MainViewModel(private val repository: AttendanceRepository) : ViewModel() 
     private val _lastRecord = MutableLiveData<DbResult<AttendanceRecord?>>()
     val lastRecord: LiveData<DbResult<AttendanceRecord?>> = _lastRecord
 
+    private val _allRecord = MutableLiveData<DbResult<List<AttendanceRecord>>>()
+    val allRecord: LiveData<DbResult<List<AttendanceRecord>>> = _allRecord
+
     fun onCheckInClicked(userId: Int, date: String) {
         viewModelScope.launch {
             try {
@@ -44,7 +47,7 @@ class MainViewModel(private val repository: AttendanceRepository) : ViewModel() 
     }
 
     /**
-     * Get last record on tap.
+     * Get last record.
      * @param userId userId
      */
     fun getLastRecord(userId: Int) {
@@ -54,6 +57,20 @@ class MainViewModel(private val repository: AttendanceRepository) : ViewModel() 
                 _lastRecord.value = result
             } catch (e: Exception) {
                 _lastRecord.postValue(DbResult.Error(e))
+            }
+        }
+    }
+
+    /**
+     * Get All Record.
+     */
+    fun getAllRecord() {
+        viewModelScope.launch {
+            try {
+                val result = repository.getAllRecord()
+                _allRecord.value = result
+            } catch (e: Exception) {
+                _allRecord.postValue(DbResult.Error(e))
             }
         }
     }

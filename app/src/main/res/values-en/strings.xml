@@ -10,4 +10,7 @@
     <string name="set_lang_dialog_title">Setting language</string>
     <string name="set_lang_dialog_ok">Setting</string>
     <string name="set_lang_dialog_cancel">Close</string>
+    <string name="download_button_text">download</string>
+    <string name="output_text_success">Success download text.</string>
+    <string name="output_text_failed">Failed download text.</string>
 </resources>
