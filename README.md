@@ -11,6 +11,10 @@
 
 <img alt="output_text_ja" width="200" src="https://github.com/kazu09/AttendEaseKotlin/assets/64839248/ea8a2f20-e992-46fe-9038-e29591b5e215">　　
 
+## iOS版
+
+https://github.com/kazu09/AttendEaseSwift
+
 ---
 ## Screen Description
 1. Begin button ・・・　Save Bugin Time and date in database.
@@ -25,4 +29,6 @@
 
 <img alt="output_text_ja" width="200" src="https://github.com/kazu09/AttendEaseKotlin/assets/64839248/ea8a2f20-e992-46fe-9038-e29591b5e215">　　
 
+## iOS Version
 
+https://github.com/kazu09/AttendEaseSwift
